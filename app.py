@@ -3,9 +3,24 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from PIL import Image
-from fpdf import FPDF
-import io
 import os
+import tempfile
+import pandas as pd
+from fpdf import FPDF
+
+# --- 核心修复部分：针对 Python 3.11 的稳健导入 ---
+from mediapipe.python.solutions import pose as mp_pose
+from mediapipe.python.solutions import drawing_utils as mp_drawing
+
+# 初始化 MediaPipe Pose 模型
+# 注意：这里直接使用上面导入的 mp_pose
+pose = mp_pose.Pose(
+    static_image_mode=True,
+    model_complexity=2,
+    enable_segmentation=True,
+    min_detection_confidence=0.5
+)
+
 
 # --- 1. 页面配置 ---
 st.set_page_config(page_title="AI 数字化体能评估", layout="wide")
